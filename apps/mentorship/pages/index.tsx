@@ -1,12 +1,13 @@
-import { GetStaticProps } from 'next/types';
-import prisma from '../lib/prisma';
+import { GetStaticProps } from 'next/types'
+import Link from 'next/Link'
+import prisma from '../lib/prisma'
 import { Type, Resource } from '@prisma/client'
 
-export interface ResourcesProp {
+export interface ResourcesProps {
   resources: Resource[]
 }
 
-export const getStaticProps: GetStaticProps<ResourcesProp> = async () => {
+export const getStaticProps: GetStaticProps<ResourcesProps> = async () => {
   const resources: Resource[] = await prisma.resource.findMany({
     where: { reviewed: true, type: Type.MENTORSHIP },
     include: {
@@ -14,15 +15,16 @@ export const getStaticProps: GetStaticProps<ResourcesProp> = async () => {
         select: { name: true },
       },
     },
-  });
+  })
   return {
     props: { resources },
     revalidate: 10,
-  };
-};
+  }
+}
 
-export function Index(props: ResourcesProp) {
+export function Index(props: ResourcesProps) {
   return (
+    <>
     <div>
       <h1 className="bg-blue-500 p-2 font-mono">
         Mentorship main page 👋
@@ -32,7 +34,13 @@ export function Index(props: ResourcesProp) {
           return <li key={resource.id} onClick={() => console.log(resource)}>{resource.title}</li>
         })}
       </ul>
+      <Link legacyBehavior href="/submit">
+        <button>
+          <a>Add a resource</a>
+        </button>
+      </Link>
     </div>
+    </>
   )
 }
 
