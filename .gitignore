@@ -40,3 +40,6 @@ Thumbs.db
 
 # Next.js
 .next
+
+# Keep environment variables out of version control
+.env

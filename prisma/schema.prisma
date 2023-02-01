@@ -36,21 +36,22 @@ model Organization {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
-  oauth_token_secret String?
-  oauth_token        String?
-  user               User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                         String  @id @default(cuid())
+  userId                     String  @map("user_id")
+  type                       String
+  provider                   String
+  providerAccountId          String  @map("provider_account_id")
+  refresh_token              String?
+  refresh_token_expires_in   Int?
+  access_token               String?
+  expires_at                 Int?
+  token_type                 String?
+  scope                      String?
+  id_token                   String?
+  session_state              String?
+  oauth_token_secret         String?
+  oauth_token                String?
+  user                       User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -64,10 +65,12 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(cuid())
+  id             String     @id @default(cuid())
   name           String?
-  email          String?   @unique
+  email          String?    @unique
   emailVerified  DateTime?
+  image          String?
+  authorized     Boolean    @default(false)
   accounts       Account[]
   sessions       Session[]
 }

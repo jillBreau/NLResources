@@ -1,7 +1,7 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps } from 'next'
 
 export interface EditProps {
-  name: string;
+  name: string
 }
 
 export const getStaticProps: GetStaticProps<EditProps> = async (context) => {
@@ -9,8 +9,8 @@ export const getStaticProps: GetStaticProps<EditProps> = async (context) => {
     props: {
       name: 'Edit'
     },
-  };
-};
+  }
+}
 
 export function Edit(props: EditProps) {
   return (
@@ -19,7 +19,7 @@ export function Edit(props: EditProps) {
         Welcome to {props.name}!
       </h1>
     </div>
-  );
+  )
 }
 
 export default Edit
