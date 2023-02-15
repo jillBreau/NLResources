@@ -1,14 +1,18 @@
 import { GetStaticProps } from 'next/types'
 import Link from 'next/Link'
 import prisma from '../lib/prisma'
-import { Type, Resource } from '@prisma/client'
+import { Type, Resource, Organization } from '@prisma/client'
+
+interface ResourceWithOrg extends Resource {
+  organization: Pick<Organization, 'name'>
+}
 
 export interface ResourcesProps {
-  resources: Resource[]
+  resources: ResourceWithOrg[]
 }
 
 export const getStaticProps: GetStaticProps<ResourcesProps> = async () => {
-  const resources: Resource[] = await prisma.resource.findMany({
+  const resources: ResourceWithOrg[] = await prisma.resource.findMany({
     where: { reviewed: true, type: Type.MENTORSHIP },
     include: {
       organization: {

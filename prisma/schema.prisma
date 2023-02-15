@@ -26,6 +26,7 @@ model Resource {
   participantStatus   Status[]
   volunteerStatus     Status[]
   organization        Organization @relation(fields: [organizationId], references: [id])
+  updatedAt           DateTime     @updatedAt @default(now())
 }
 
 model Organization {
